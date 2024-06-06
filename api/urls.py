@@ -15,7 +15,5 @@ router.register("customers",views.CustomerViewSetView,basename="customers")
 urlpatterns=[
 
     path("token/",ObtainAuthToken.as_view())
-    
-
 
 ]+router.urls
