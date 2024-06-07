@@ -2,6 +2,8 @@ from django.db import models
 
 from django.contrib.auth.models import User
 
+from django.db.models import Sum
+
 
 
 class Customer(models.Model):
@@ -35,6 +37,19 @@ class Customer(models.Model):
 
     is_active=models.BooleanField(default=True)
 
+
+    @property
+    def work_count(self):
+
+        return Work.objects.filter(customer=self).count()
+    
+    @property
+    def work_total(self):
+
+        return Work.objects.filter(customer=self).values('amount').aggregate(total=Sum('amount'))['total']
+
+
+
     def __str__(self) -> str:
 
         return self.name
@@ -55,6 +70,8 @@ class Work(models.Model):
     update_date=models.DateTimeField(auto_now=True)
 
     is_active=models.BooleanField(default=True)
+
+
 
     def __str__(self) -> str:
 
