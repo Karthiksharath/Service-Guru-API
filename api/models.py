@@ -40,13 +40,18 @@ class Customer(models.Model):
 
     @property
     def work_count(self):
-
-        return Work.objects.filter(customer=self).count()
+                                                    # to display total count of works while listing customer
+        return Work.objects.filter(customer=self).count()        # return self.work_set().all().counr()   self--parent (here cuatomer)    
     
     @property
-    def work_total(self):
+    def work_total(self):                                          
+                                                    # to display total amount of works while listing customer
+        return Work.objects.filter(customer=self).values('amount').aggregate(total=Sum('amount'))['total']   
 
-        return Work.objects.filter(customer=self).values('amount').aggregate(total=Sum('amount'))['total']
+    @property
+    def works(self):
+
+        return Work.objects.filter(customer=self)
 
 
 
